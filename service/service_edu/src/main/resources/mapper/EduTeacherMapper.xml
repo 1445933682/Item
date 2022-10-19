@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guli.eduService.mapper.EduTeacherMapper">
+
+    <select id="selectTeachers" resultType="com.guli.eduService.entity.EduTeacher" parameterType="com.guli.eduService.entity.vo.TeacherQuery" >
+        SELECT
+        id,
+        name,
+        intro,
+        career,
+        level,
+        avatar,
+        sort,
+        is_deleted,
+        gmt_create,
+        gmt_modified
+        FROM
+        edu_teacher
+        <where>
+            and is_deleted=0
+            <if test="query.name!=null and query.name!=''">
+                and name like concat('%',#{query.name},'%')
+            </if>
+            <if test="query.level!=null and query.level!=''">
+                and level=#{query.level}
+            </if>
+            <if test="query.begin!=null and query.begin!=''">
+                and gmt_create=#{query.begin}
+            </if>
+            <if test="query.end!=null and query.end!=''">
+                and gmt_modified=#{query.end}
+            </if>
+        </where>
+    </select>
+</mapper>
